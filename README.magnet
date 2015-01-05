@@ -9,10 +9,9 @@ git clone https://github.com/Flowdalic/asmack.git
 # build asmack for Android 8 (default in build.bash) using tag "4.0.6"
 rm -rf build releases 
 rm -f version-tags/4.0.6.tag
-cp patch/4.0/* patch
-build.bash -b 4.0.6
+build.bash -b 4.0.6 -c 4.0
 
 # the jar is in releases/4.0.6/asmack-${android-version}-{smack-version}.jar
 
-# For Smack 4.0.6, don't copy the patches from 4.0 directory except
-# 42-fast-packet-writer.patch
+# For Smack 4.0.6
+build.bash -b 4.0.6 -c 4.0-magnet

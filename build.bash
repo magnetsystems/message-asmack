@@ -219,6 +219,7 @@ createbuildsrc() {
 	execute copyfolder "src/qpid/java" "build/src" "org/apache/qpid/management/common/sasl"
 	execute copyfolder "src/novell-openldap-jldap" "build/src" "."
 	execute copyfolder "src/harmony" "build/src" "."
+	execute copyfolder "src/xbill-dns" "build/src" "."
 	# if $BUILD_BOSH; then
 	# 	execute copyfolder "src/jbosh/src/main/java" "build/src/trunk" "."
 	# 	cp -r src/smack-bosh .
