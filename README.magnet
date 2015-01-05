@@ -12,6 +12,7 @@ rm -f version-tags/4.0.6.tag
 build.bash -b 4.0.6 -c 4.0
 
 # the jar is in releases/4.0.6/asmack-${android-version}-{smack-version}.jar
+# and application needs to link with lib/org.xbill.dns_2.1.6.jar
 
 # For Smack 4.0.6
-build.bash -b 4.0.6 -c 4.0-magnet
+build-smack.bash -b 4.0.6 -c 4.0-magnet
