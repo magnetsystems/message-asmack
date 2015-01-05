@@ -1,13 +1,18 @@
-# This is how to get this build environment for asmack 4.0.6
+#
+# This is how to get this build environment for asmack 4.0.6 (Android only)
+#
 git clone https://github.com/Flowdalic/asmack.git
+
+# make sure that ANDROID_HOME environment variable is set
 
 # patch/4.0/42-fast-packet-writer.patch contains the writer improvement.
 # build asmack for Android 8 (default in build.bash) using tag "4.0.6"
-rm -rf releases 
+rm -rf build releases 
 rm -f version-tags/4.0.6.tag
 cp patch/4.0/* patch
 build.bash -b 4.0.6
 
 # the jar is in releases/4.0.6/asmack-${android-version}-{smack-version}.jar
 
-# application needs to link with lib/org.xbill.dns-{version}.jar
+# For Smack 4.0.6, don't copy the patches from 4.0 directory except
+# 42-fast-packet-writer.patch
