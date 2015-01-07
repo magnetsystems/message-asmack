@@ -32,13 +32,13 @@
     <copy todir="build/classes/jse"><fileset dir="build/src" includes="META-INF/**" /></copy>
     <jar
       basedir="build/classes/jse"
-      destfile="build/asmack-jse${jar.suffix}.jar"
+      destfile="build/smack-${jar.suffix}.jar"
       filesonly="true"
       level="9"
     />
     <zip
       basedir="build/src"
-      destfile="build/asmack-jse-source${jar.suffix}.zip"
+      destfile="build/smack-source${jar.suffix}.zip"
       excludes="**/de/measite/smack/AndroidDebugger.java"
       filesonly="true"
       level="9"

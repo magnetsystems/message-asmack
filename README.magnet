@@ -1,18 +1,19 @@
 #
 # This is how to get this build environment for asmack 4.0.6 (Android only)
+# The magnet directory contains all the patches done by Magnet Systems Inc.
+#
+# The 42-fast-packet-writer.patch contains the writer improvement.
 #
 git clone https://github.com/Flowdalic/asmack.git
 
 # make sure that ANDROID_HOME environment variable is set
-
-# patch/4.0/42-fast-packet-writer.patch contains the writer improvement.
 # build asmack for Android 8 (default in build.bash) using tag "4.0.6"
+# the jar is in releases/4.0.6/asmack-${android-version}-{smack-version}.jar
+# and application needs to link with lib/org.xbill.dns_2.1.6.jar
 rm -rf build releases 
 rm -f version-tags/4.0.6.tag
 build.bash -b 4.0.6 -c 4.0
 
-# the jar is in releases/4.0.6/asmack-${android-version}-{smack-version}.jar
-# and application needs to link with lib/org.xbill.dns_2.1.6.jar
-
 # For Smack 4.0.6
-build-smack.bash -b 4.0.6 -c 4.0-magnet
+# the jar is in releases/4.0.6/smack-{smack-version}.jar
+build-smack.bash -b 4.0.6
