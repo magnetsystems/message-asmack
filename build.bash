@@ -623,6 +623,7 @@ createbuildsrc
 parseSmack
 createVersionTag
 patchsrc "patch"
+patchsrc "magnet"
 if $BUILD_JINGLE ; then
 	patchsrc "jingle"
 	JINGLE_ARGS="-Djingle=lib/jstun.jar"
