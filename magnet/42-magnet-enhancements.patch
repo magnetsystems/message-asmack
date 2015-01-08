@@ -1,5 +1,5 @@
---- ../4.0.6/org/jivesoftware/smack/XMPPConnection.java	2015-01-08 01:40:17.302945809 -0800
-+++ org/jivesoftware/smack/XMPPConnection.java	2015-01-08 01:40:17.290945807 -0800
+--- ../4.0.6/org/jivesoftware/smack/XMPPConnection.java	2015-01-08 02:17:12.347005123 -0800
++++ org/jivesoftware/smack/XMPPConnection.java	2015-01-08 02:17:12.335005126 -0800
 @@ -139,6 +139,17 @@
              new ConcurrentHashMap<PacketListener, ListenerWrapper>();
  
@@ -144,8 +144,8 @@
      /**
       * A wrapper class to associate a packet filter with a listener.
       */
---- ../4.0.6/org/jivesoftware/smack/util/LazyStringBuilder.java	2015-01-08 01:40:17.342945808 -0800
-+++ org/jivesoftware/smack/util/LazyStringBuilder.java	2015-01-08 01:40:17.334945807 -0800
+--- ../4.0.6/org/jivesoftware/smack/util/LazyStringBuilder.java	2015-01-08 02:17:12.387005125 -0800
++++ org/jivesoftware/smack/util/LazyStringBuilder.java	2015-01-08 02:17:12.379005125 -0800
 @@ -16,6 +16,9 @@
   */
  package org.jivesoftware.smack.util;
@@ -212,8 +212,8 @@
 +      }
 +    }
  }
---- ../4.0.6/org/jivesoftware/smack/util/XmlStringBuilder.java	2015-01-08 01:40:17.378945809 -0800
-+++ org/jivesoftware/smack/util/XmlStringBuilder.java	2015-01-08 01:40:17.374945809 -0800
+--- ../4.0.6/org/jivesoftware/smack/util/XmlStringBuilder.java	2015-01-08 02:17:12.423005126 -0800
++++ org/jivesoftware/smack/util/XmlStringBuilder.java	2015-01-08 02:17:12.415005127 -0800
 @@ -16,6 +16,9 @@
   */
  package org.jivesoftware.smack.util;
@@ -234,8 +234,8 @@
 +      sb.write(writer);
 +    }
  }
---- ../4.0.6/org/jivesoftware/smack/tcp/PacketWriter.java	2015-01-08 01:40:17.418945810 -0800
-+++ org/jivesoftware/smack/tcp/PacketWriter.java	2015-01-08 01:40:17.410945811 -0800
+--- ../4.0.6/org/jivesoftware/smack/tcp/PacketWriter.java	2015-01-08 02:17:12.463005127 -0800
++++ org/jivesoftware/smack/tcp/PacketWriter.java	2015-01-08 02:17:12.455005127 -0800
 @@ -20,6 +20,7 @@
  import org.jivesoftware.smack.SmackException.NotConnectedException;
  import org.jivesoftware.smack.packet.Packet;
@@ -294,30 +294,33 @@
                  }
                  writer.flush();
              }
-@@ -212,6 +227,10 @@
+@@ -212,6 +227,13 @@
              // or if the it was caused because the socket got closed
              if (!(done || connection.isSocketClosed())) {
                  shutdown();
 +                if (packet != null) {
 +                  connection.notifyPacketFailed(packet, ioe);
-+                  packet = null;
++                }
++                while (!queue.isEmpty()) {
++                  packet = queue.remove();
++                  connection.notifyPacketFailed(packet, ioe);
 +                }
                  connection.notifyConnectionError(ioe);
              }
          }
---- ../4.0.6/org/jivesoftware/smack/tcp/XMPPTCPConnection.java	2015-01-08 01:40:17.458945811 -0800
-+++ org/jivesoftware/smack/tcp/XMPPTCPConnection.java	2015-01-08 01:40:17.450945812 -0800
+--- ../4.0.6/org/jivesoftware/smack/tcp/XMPPTCPConnection.java	2015-01-08 02:17:12.503005128 -0800
++++ org/jivesoftware/smack/tcp/XMPPTCPConnection.java	2015-01-08 02:17:12.495005129 -0800
 @@ -847,6 +847,16 @@
          callConnectionClosedOnErrorListener(e);
      }
  
 +    // Magnet Extension
 +    synchronized void notifyPacketSent(Packet packet) {
-+      callPacketSent(packet);
++        callPacketSent(packet);
 +    }
 +
-+    synchronized void notifyPacketFailed(Packet packet, Exception e) {
-+      callPacketFailed(packet, e);
++    synchronized void notifyPacketFailed(Packet packet, Exception cause) {
++        callPacketFailed(packet, cause);
 +    }
 +    // Magnet Extension
 +

@@ -61,4 +61,4 @@ for i in `git diff-tree -r $SMACK_BRANCH $MAGNET_BRANCH --name-only`; do
     diff -ur ../${SMACK_BRANCH}/${file} ${file} >> ../../magnet/${PATCH_FILE}
   )
 done
-test -d patch-stage && rm -rf patch-stage
+test -d ../../patch-stage && rm -rf ../../patch-stage
