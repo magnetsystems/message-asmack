@@ -245,14 +245,6 @@ patchsrc() {
 
 build() {
 	echo "## Step 30: compile"
-	buildandroid
-	if [ $? -ne 0 ]; then
-		exit 1
-	fi
-}
-
-build2() {
-	echo "## Step 40: compile JSE"
   buildjse
 	if [ $? -ne 0 ]; then
 		exit 1
@@ -622,7 +614,7 @@ fetchall
 createbuildsrc
 parseSmack
 createVersionTag
-patchsrc "patch"
+#patchsrc "patch"
 patchsrc "magnet"
 if $BUILD_JINGLE ; then
 	patchsrc "jingle"
