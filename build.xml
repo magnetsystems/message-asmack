@@ -30,6 +30,9 @@
 	  includeantruntime="false"
     >
       <exclude name="**/de/measite/**" />
+      <exclude name="**/javax/security/auth/kerberos/**" />
+      <exclude name="**/javax/security/auth/x500/**" />
+      <exclude name="**/javax/security/auth/Policy.java" />
       <exclude name="**/org/jivesoftware/**/SmackAndroid.java" />
       <exclude name="**/com/novell/**" />
       <exclude name="**/org/apache/**" />
