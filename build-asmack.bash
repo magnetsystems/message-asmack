@@ -162,7 +162,7 @@ EOF
 		fi
 
 		if [[ -d $d/.git ]] ; then
-			v=$(cd $d && git rev-parse HEAD)
+			v=$(cd $d && git rev-parse --HEAD)
 			key=$d
 			COMPONENT_VERSIONS["$d"]=$v
 		elif [[ -d $d/.svn ]] ; then
@@ -174,12 +174,12 @@ EOF
 
 	if $SMACK_LOCAL ; then
 		cd $SMACK_REPO
-		v=$(git rev-parse HEAD)
+		v=$(git rev-parse --HEAD)
 		COMPONENT_VERSIONS[smack]=$v
 	fi
 
 	cd ${ASMACK_BASE}
-	v=$(git rev-parse HEAD)
+	v=$(git rev-parse --HEAD)
 	COMPONENT_VERSIONS[asmack]=$v
 
 	for i in "${!COMPONENT_VERSIONS[@]}" ; do
@@ -189,13 +189,14 @@ EOF
 
 copyfolder() {
 	cd ${ASMACK_BASE}
-	(
-		cd "${1}"
-		tar -cSp --exclude-vcs "${3}"
-	) | (
-		cd "${2}"
-		tar -xSsp
-	)
+  tar cSpf - -C ${1} --exclude-vcs "${3}" | tar xSspf - -C ${2}
+#	(
+#		cd "${1}"
+#		tar -cSp --exclude-vcs "${3}"
+#	) | (
+#		cd "${2}"
+#		tar -xSsp
+#	)
 	wait
 }
 
@@ -436,7 +437,7 @@ publishRelease() {
 	fi
 
 	if [[ -z $PUBLISH_HOST || -z $PUBLISH_DIR ]]; then
-		echo "WARNING: Not going to publish this release as either $PUBLISH_HOST or $PUBLISH_DIR is not set"
+		echo 'WARNING: Not going to publish this release as either $PUBLISH_HOST or $PUBLISH_DIR is not set'
 		return
 	fi
 
@@ -463,8 +464,8 @@ islocalrepo() {
 
 initialize() {
 	echo "## Step 00: initialize"
-	if ! [ -d build/src/trunk ]; then
-		mkdir -p build/src/trunk
+	if ! [ -d build/src ]; then
+		mkdir -p build/src
 	fi
 	if [ ! -d src/ ]; then
 		mkdir src
@@ -526,7 +527,7 @@ setdefaults() {
 
 	# Often used variables
 	ASMACK_BASE=$(pwd)
-	ASMACK_RELEASES=${ASMACK_BASE}/releases
+	ASMACK_RELEASES=${ASMACK_BASE}/releases-asmack
 	[[ ! -d "$ASMACK_RELEASES" ]] && mkdir "$ASMACK_RELEASES"
 	SRC_DIR=${ASMACK_BASE}/src
 	VERSION_TAG_DIR=${ASMACK_BASE}/version-tags
@@ -605,6 +606,7 @@ fi
 if [[ -n $BUILD_CUSTOM ]]; then
 	patchsrc "patch/${BUILD_CUSTOM}"
 fi
+patchsrc "magnet"
 build
 
 if cmdExists advzip ; then

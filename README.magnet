@@ -21,11 +21,11 @@ prepare-patch.bash
 # build asmack for Android 8 (default in build.bash) using tag "4.0.6"
 # the jar is in releases/4.0.6/asmack-${android-version}-{smack-version}.jar
 # and application needs to link with lib/org.xbill.dns_2.1.6.jar
-rm -rf build releases 
-rm -f version-tags/4.0.6.tag
-build.bash -b 4.0.6 -c 4.0
+ant clean
+build-asmack.bash -b 4.0.6 -c 4.0
 
 
 # For Smack 4.0.6
 # the jar is in releases/4.0.6/smack-{smack-version}.jar
+ant clean
 build-smack.bash -b 4.0.6

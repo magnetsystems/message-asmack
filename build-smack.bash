@@ -480,8 +480,8 @@ islocalrepo() {
 
 initialize() {
 	echo "## Step 00: initialize"
-	if ! [ -d build/src/trunk ]; then
-		mkdir -p build/src/trunk
+	if ! [ -d build/src ]; then
+		mkdir -p build/src
 	fi
 	if [ ! -d src/ ]; then
 		mkdir src
@@ -543,7 +543,7 @@ setdefaults() {
 
 	# Often used variables
 	ASMACK_BASE=$(pwd)
-	ASMACK_RELEASES=${ASMACK_BASE}/releases
+	ASMACK_RELEASES=${ASMACK_BASE}/releases-smack
 	[[ ! -d "$ASMACK_RELEASES" ]] && mkdir "$ASMACK_RELEASES"
 	SRC_DIR=${ASMACK_BASE}/src
 	VERSION_TAG_DIR=${ASMACK_BASE}/version-tags

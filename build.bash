@@ -162,7 +162,7 @@ EOF
 		fi
 
 		if [[ -d $d/.git ]] ; then
-			v=$(cd $d && git rev-parse --HEAD)
+			v=$(cd $d && git rev-parse HEAD)
 			key=$d
 			COMPONENT_VERSIONS["$d"]=$v
 		elif [[ -d $d/.svn ]] ; then
@@ -174,12 +174,12 @@ EOF
 
 	if $SMACK_LOCAL ; then
 		cd $SMACK_REPO
-		v=$(git rev-parse --HEAD)
+		v=$(git rev-parse HEAD)
 		COMPONENT_VERSIONS[smack]=$v
 	fi
 
 	cd ${ASMACK_BASE}
-	v=$(git rev-parse --HEAD)
+	v=$(git rev-parse HEAD)
 	COMPONENT_VERSIONS[asmack]=$v
 
 	for i in "${!COMPONENT_VERSIONS[@]}" ; do
@@ -189,14 +189,13 @@ EOF
 
 copyfolder() {
 	cd ${ASMACK_BASE}
-  tar cSpf - -C ${1} --exclude-vcs "${3}" | tar xSspf - -C ${2}
-#	(
-#		cd "${1}"
-#		tar -cSp --exclude-vcs "${3}"
-#	) | (
-#		cd "${2}"
-#		tar -xSsp
-#	)
+	(
+		cd "${1}"
+		tar -cSp --exclude-vcs "${3}"
+	) | (
+		cd "${2}"
+		tar -xSsp
+	)
 	wait
 }
 
@@ -247,30 +246,6 @@ build() {
 	echo "## Step 30: compile"
 	buildandroid
 	if [ $? -ne 0 ]; then
-		exit 1
-	fi
-}
-
-build2() {
-	echo "## Step 40: compile JSE"
-  buildjse
-	if [ $? -ne 0 ]; then
-		exit 1
-	fi
-}
-
-buildjse() {
-	cd $ASMACK_BASE
-
-	local asmack_suffix
-	if [[ -n ${VERSION_TAG} ]] ; then
-		asmack_suffix="-${VERSION_TAG}"
-	else
-		asmack_suffix="${1}"
-	fi
-	if ! ant \
-		-Djar.suffix="${asmack_suffix}" \
-		compile-jse ; then
 		exit 1
 	fi
 }
@@ -461,7 +436,7 @@ publishRelease() {
 	fi
 
 	if [[ -z $PUBLISH_HOST || -z $PUBLISH_DIR ]]; then
-		echo 'WARNING: Not going to publish this release as either $PUBLISH_HOST or $PUBLISH_DIR is not set'
+		echo "WARNING: Not going to publish this release as either $PUBLISH_HOST or $PUBLISH_DIR is not set"
 		return
 	fi
 
@@ -630,7 +605,6 @@ fi
 if [[ -n $BUILD_CUSTOM ]]; then
 	patchsrc "patch/${BUILD_CUSTOM}"
 fi
-patchsrc "magnet"
 build
 
 if cmdExists advzip ; then

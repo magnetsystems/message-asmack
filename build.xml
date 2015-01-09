@@ -28,7 +28,13 @@
       debuglevel="source,lines"
       excludes="**/de/measite/smack/AndroidDebugger.java"
 	  includeantruntime="false"
-    />
+    >
+      <exclude name="**/org/jivesoftware/**/SmackAndroid.java" />
+      <exclude name="**/com/novell/**" />
+      <exclude name="**/org/apache/**" />
+      <exclude name="**/org/ietf/**" />
+    </javac>
+
     <copy todir="build/classes/jse"><fileset dir="build/src" includes="META-INF/**" /></copy>
     <jar
       basedir="build/classes/jse"
@@ -39,7 +45,7 @@
     <zip
       basedir="build/src"
       destfile="build/smack-source${jar.suffix}.zip"
-      excludes="**/de/measite/smack/AndroidDebugger.java"
+      excludes="**/de/measite/smack/AndroidDebugger.java,**/org/jivesoftware/**/SmackAndroid.java,**/com/novell/**,**/org/apache/** **/org/ietf/**"
       filesonly="true"
       level="9"
     />
@@ -90,7 +96,7 @@
 
 <target name="clean" description="Clean up classes directory">
   <delete dir="build" failonerror="false" />
-  <delete dir="releases" failonerror="false" />
+  <delete file="version-tags/4.0.6.tag" failonerror="false" />
 </target>
 
 </project>
