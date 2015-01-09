@@ -29,6 +29,7 @@
       excludes="**/de/measite/smack/AndroidDebugger.java"
 	  includeantruntime="false"
     >
+      <exclude name="**/de/measite/**" />
       <exclude name="**/org/jivesoftware/**/SmackAndroid.java" />
       <exclude name="**/com/novell/**" />
       <exclude name="**/org/apache/**" />
