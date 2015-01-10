@@ -88,5 +88,10 @@
   depends="compile-jse"
 />
 
+<target name="clean" description="Clean up classes directory">
+  <delete dir="build" failonerror="false" />
+  <delete dir="releases" failonerror="false" />
+</target>
+
 </project>
 

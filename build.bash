@@ -103,14 +103,14 @@ parseSmack() {
 		echo "Error: Could not find the tag in the CHANGELOG file. Please write a short summary of changes"
 		exit 1
 	fi
-	if ! $SNAPSHOT && ! git diff --exit-code; then
-		echo "Error: Unstaged changes found, please stages your changes"
-		exit 1
-	fi
-	if ! $SNAPSHOT && ! git diff --cached --exit-code; then
-		echo "Error: Staged, but uncommited changes found, please commit"
-		exit 1
-	fi
+#	if ! $SNAPSHOT && ! git diff --exit-code; then
+#		echo "Error: Unstaged changes found, please stages your changes"
+#		exit 1
+#	fi
+#	if ! $SNAPSHOT && ! git diff --cached --exit-code; then
+#		echo "Error: Staged, but uncommited changes found, please commit"
+#		exit 1
+#	fi
 	if $SNAPSHOT; then
 		VERSION_TAG+="-SNAPSHOT-${MACHINE_DATE}"
 	fi
@@ -125,12 +125,12 @@ parseSmack() {
 	fi
 	TAG_FILE=${VERSION_TAG_DIR}/${VERSION_TAG}.tag
 	if [ -f $TAG_FILE ]; then
-		if $SNAPSHOT; then
+#		if $SNAPSHOT; then
 			rm $TAG_FILE
-		else
-			echo "Error: Tag file already exists"
-			exit 1
-		fi
+#		else
+#			echo "Error: Tag file already exists"
+#			exit 1
+#		fi
 	fi
 }
 
@@ -162,7 +162,7 @@ EOF
 		fi
 
 		if [[ -d $d/.git ]] ; then
-			v=$(cd $d && git rev-parse HEAD)
+			v=$(cd $d && git rev-parse --HEAD)
 			key=$d
 			COMPONENT_VERSIONS["$d"]=$v
 		elif [[ -d $d/.svn ]] ; then
@@ -174,12 +174,12 @@ EOF
 
 	if $SMACK_LOCAL ; then
 		cd $SMACK_REPO
-		v=$(git rev-parse HEAD)
+		v=$(git rev-parse --HEAD)
 		COMPONENT_VERSIONS[smack]=$v
 	fi
 
 	cd ${ASMACK_BASE}
-	v=$(git rev-parse HEAD)
+	v=$(git rev-parse --HEAD)
 	COMPONENT_VERSIONS[asmack]=$v
 
 	for i in "${!COMPONENT_VERSIONS[@]}" ; do
@@ -189,13 +189,14 @@ EOF
 
 copyfolder() {
 	cd ${ASMACK_BASE}
-	(
-		cd "${1}"
-		tar -cSp --exclude-vcs "${3}"
-	) | (
-		cd "${2}"
-		tar -xSsp
-	)
+  tar cSpf - -C ${1} --exclude-vcs "${3}" | tar xSspf - -C ${2}
+#	(
+#		cd "${1}"
+#		tar -cSp --exclude-vcs "${3}"
+#	) | (
+#		cd "${2}"
+#		tar -xSsp
+#	)
 	wait
 }
 
@@ -436,7 +437,7 @@ publishRelease() {
 	fi
 
 	if [[ -z $PUBLISH_HOST || -z $PUBLISH_DIR ]]; then
-		echo "WARNING: Not going to publish this release as either $PUBLISH_HOST or $PUBLISH_DIR is not set"
+		echo 'WARNING: Not going to publish this release as either $PUBLISH_HOST or $PUBLISH_DIR is not set'
 		return
 	fi
 
@@ -508,11 +509,12 @@ execute() {
 
 setdefaults() {
 	# Default configuration, can be changed with script arguments
-	SMACK_REPO=git://github.com/Flowdalic/smack.git
-	SMACK_BRANCH=
+#	SMACK_REPO=git://github.com/Flowdalic/smack.git
+	SMACK_REPO=ssh://git@bitbucket.org/magneteng/mmx-smack.git
+	SMACK_BRANCH=4.0.6-magnet
 	SMACK_LOCAL=false
 	UPDATE_REMOTE=true
-	BUILD_CUSTOM=
+	BUILD_CUSTOM=4.0
 	BUILD_JINGLE=false
 	BUILD_BOSH=false
 	SNAPSHOT=false
