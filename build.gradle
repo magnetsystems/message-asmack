@@ -17,6 +17,7 @@ uploadArchives {
        pom.project {
          name 'MMX Android Smack'
          artifactId 'mmx-asmack-android-8'
+         groupId 'com.magnet.mmx.ext'
          packaging 'jar'
          description project.description
          developers {
