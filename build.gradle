@@ -6,6 +6,7 @@ configurations {
 }
 
 group = 'com.magnet.mmx.ext'
+version = '4.0.6'
 
 uploadArchives {
   repositories {
@@ -16,7 +17,6 @@ uploadArchives {
        pom.project {
          name 'MMX Android Smack'
          artifactId 'mmx-asmack-android-8'
-         version '4.0.6'
          packaging 'jar'
          description project.description
          developers {
@@ -32,5 +32,5 @@ uploadArchives {
 }
 
 artifacts {
-   resultArchives file: file('releases/**/*.jar')
+   resultArchives file: file("releases/${version}/mmx-asmack-android-8-${version}.jar")
 }
