@@ -5,6 +5,8 @@ configurations {
        resultArchives
 }
 
+group = 'com.magnet.mmx.ext'
+
 uploadArchives {
   repositories {
     mavenDeployer {
@@ -15,7 +17,6 @@ uploadArchives {
          name 'MMX Android Smack'
          artifactId 'mmx-asmack-android-8'
          version '4.0.6'
-         groupId 'com.magnet.mmx.ext'
          packaging 'jar'
          description project.description
          developers {
