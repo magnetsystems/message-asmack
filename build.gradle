@@ -1,4 +1,3 @@
-apply plugin: 'java'
 apply plugin: 'maven'
 
 configurations {
@@ -7,6 +6,7 @@ configurations {
 
 group = 'com.magnet.mmx.ext'
 version = '4.0.6'
+description = 'MMX asmack'
 
 uploadArchives {
   repositories {
