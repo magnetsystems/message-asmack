@@ -1,0 +1,37 @@
+apply plugin: 'maven'
+
+configurations {
+       resultArchives
+}
+
+group = 'com.magnet.mmx.ext'
+version = '4.0.6'
+description = 'MMX asmack'
+
+uploadArchives {
+  repositories {
+    mavenDeployer {
+       repository(url: "http://dev-repo.magnet.com:8081/artifactory/libs-release-local") {
+                  authentication(userName: "${releaseUser}", password: "${releasePassword}")
+        }
+       pom.project {
+         name 'MMX Android Smack'
+         artifactId 'mmx-asmack-android-8'
+         groupId 'com.magnet.mmx.ext'
+         packaging 'jar'
+         description project.description
+         developers {
+           developer {
+              id 'mmx'
+              name 'Magnet Message Exchange Team'
+              email 'mmx@magnet.com'
+           }
+         }
+       }
+    }  
+  }
+}
+
+artifacts {
+   resultArchives file: file("releases/${version}/mmx-asmack-android-8-${version}.jar")
+}
