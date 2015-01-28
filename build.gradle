@@ -1,0 +1,32 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+
+configurations {
+       resultArchives
+}
+
+uploadArchives {
+  repositories {
+    mavenDeployer {
+       repository(url: "http://dev-repo.magnet.com:8081/artifactory/libs-release-local") {
+                  authentication(userName: "${releaseUser}", password: "${releasePassword}")
+        }
+       pom.project {
+         name 'MMX Android Smack'
+         packaging 'jar'
+         description project.description
+         developers {
+           developer {
+              id 'mmx'
+              name 'Magnet Message Exchange Team'
+              email 'mmx@magnet.com'
+           }
+         }
+       }
+    }  
+  }
+}
+
+artifacts {
+   resultArchives file: file('releases/**/*.jar')
+}
