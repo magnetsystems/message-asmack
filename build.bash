@@ -85,7 +85,7 @@ fetchall() {
 		return
 	fi
 
-	execute svnfetch "http://svn.apache.org/repos/asf/qpid/trunk/qpid/java/management/common/src/main/" "qpid"
+	execute svnfetch "http://svn.apache.org/repos/asf/qpid/java/trunk/management/common/src/main/" "qpid"
 	execute svnfetch "http://svn.apache.org/repos/asf/harmony/enhanced/java/trunk/classlib/modules/auth/src/main/java/common/" "harmony" 
 	# dnsjava is now in bootclasspath
 	# execute svnfetch "https://svn.code.sf.net/p/dnsjava/code/trunk" "dnsjava"
@@ -512,7 +512,7 @@ setdefaults() {
 	# Default configuration, can be changed with script arguments
 #	SMACK_REPO=git://github.com/Flowdalic/smack.git
 	SMACK_REPO=ssh://git@bitbucket.org/magneteng/mmx-smack.git
-	SMACK_BRANCH=4.0.6-magnet
+	SMACK_BRANCH=4.0.7-magnet
 	SMACK_LOCAL=false
 	UPDATE_REMOTE=true
 	BUILD_CUSTOM=4.0
