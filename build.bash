@@ -85,7 +85,7 @@ fetchall() {
 		return
 	fi
 
-	execute svnfetch "http://svn.apache.org/repos/asf/qpid/trunk/qpid/java/management/common/src/main/" "qpid"
+	execute svnfetch "http://svn.apache.org/repos/asf/qpid/java/trunk/management/common/src/main/" "qpid"
 	execute svnfetch "http://svn.apache.org/repos/asf/harmony/enhanced/java/trunk/classlib/modules/auth/src/main/java/common/" "harmony" 
 	# dnsjava is now in bootclasspath
 	# execute svnfetch "https://svn.code.sf.net/p/dnsjava/code/trunk" "dnsjava"
