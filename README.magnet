@@ -1,0 +1,25 @@
+#
+# Copyright (C) 2015 Magnet Systems Inc.  All Rights Reserved.
+# 2015/01/09
+#
+# The original asmack build environemnt is clone from:
+# git clone https://github.com/Flowdalic/asmack.git
+#
+# Magnet provides enhancements in smack "4.0.7" branch and
+# modify asmack build script to build the "4.0.7" asmack library.
+# The smack repo on GitHub is:
+#
+# git clone https://github.com/magnetsystem/magnet-smack
+#
+# The magnet-asmack uses this repo, applies 4.0 patches for Android
+# and Magnet enhancements to generate 4.0.7 asmack library.
+# 
+git clone https://github.com/magnetsystems/magnet-asmack
+
+# To build asmack 4.0.7 with Magnet enhancements,
+# make sure that ANDROID_HOME environment variable is set
+# build asmack for Android 8 (default in build-ext.bash) using tag "master"
+# the jar is in releases/4.0.7/mmx-asmack-${android-version}-{smack-version}.jar
+# and application needs to link with lib/org.xbill.dns_2.1.6.jar
+ant clean
+build.bash -r git://github.com/magnetsystems/magnet-smack.git -b master
