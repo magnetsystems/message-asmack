@@ -669,8 +669,8 @@ public class DigestMD5SaslClient implements SaslClient
                                       true);
 
         digestResponse.append("username=\"");
-        // escape the backslash and double-quote.
-        digestResponse.append(escapeWithBackslash(m_name));
+        // Escape any backslash and double-quote chars in the user name.
+        digestResponse.append(escapeQuotedStr(m_name));
         if (0 != m_realm.length())
         {
             digestResponse.append("\",realm=\"");
@@ -691,44 +691,53 @@ public class DigestMD5SaslClient implements SaslClient
         if (m_authorizationId != null && m_authorizationId.length() > 0)
         {
             digestResponse.append("\",authzid=\"");
-            digestResponse.append(m_authorizationId);
+            // Escape any backslash and double-quote chars in the auth id.
+            digestResponse.append(escapeQuotedStr(m_authorizationId));
         }
         digestResponse.append("\"");
         return digestResponse.toString();
      }
 
-     /**
-      * This function escapes every backslash and double-quote in a quoted
-      * string.
-      *
-      * @param str A quoted string.
-      *
-      * @return A string with the escaped backslash character(s).
-      */
-     private String escapeWithBackslash(
-            String str)
-     {
+    /**
+     * This function escapes any backslash and double-quote chars in a quoted
+     * string.
+     *
+     * @param str A quoted string.
+     *
+     * @return A string with the escaped character(s).
+     */
+    private String escapeQuotedStr(
+        String str)
+    {
         int count = 0;
-        char[] buf = str.toCharArray();
-        for (char c : buf) {
-            if (c == '\\' || c == '"') {
+        int len = str.length();
+        for (int i = len; --i >= 0; )
+        {
+            char c = str.charAt(i);
+            if (c == '\\' || c == '"')
+            {
               ++count;
             }
         }
-        if (count == 0) {
-            return str;
+        // No chars to be escaped.
+        if (count == 0)
+        {
+          return str;
         }
-
-        StringBuilder sb = new StringBuilder(buf.length+count);
-        for (char c : buf) {
-            if (c == '\\' || c == '"') {
+        
+        StringBuilder sb = new StringBuilder(len+count);
+        for (int i = 0; i < len; i++)
+        {
+            char c = str.charAt(i);
+            if (c == '\\' || c == '"')
+            {
                 sb.append('\\');
             }
             sb.append(c);
         }
         return sb.toString();
-     }
-
+    }
+     
     /**
      * This function validates the server response. This step performs a 
      * modicum of mutual authentication by verifying that the server knows
