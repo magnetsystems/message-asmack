@@ -669,7 +669,8 @@ public class DigestMD5SaslClient implements SaslClient
                                       true);
 
         digestResponse.append("username=\"");
-        digestResponse.append(m_name);
+        // escape the backslash and double-quote.
+        digestResponse.append(escapeWithBackslash(m_name));
         if (0 != m_realm.length())
         {
             digestResponse.append("\",realm=\"");
@@ -695,8 +696,39 @@ public class DigestMD5SaslClient implements SaslClient
         digestResponse.append("\"");
         return digestResponse.toString();
      }
-     
-     
+
+     /**
+      * This function escapes every backslash and double-quote in a quoted
+      * string.
+      *
+      * @param str A quoted string.
+      *
+      * @return A string with the escaped backslash character(s).
+      */
+     private String escapeWithBackslash(
+            String str)
+     {
+        int count = 0;
+        char[] buf = str.toCharArray();
+        for (char c : buf) {
+            if (c == '\\' || c == '"') {
+              ++count;
+            }
+        }
+        if (count == 0) {
+            return str;
+        }
+
+        StringBuilder sb = new StringBuilder(buf.length+count);
+        for (char c : buf) {
+            if (c == '\\' || c == '"') {
+                sb.append('\\');
+            }
+            sb.append(c);
+        }
+        return sb.toString();
+     }
+
     /**
      * This function validates the server response. This step performs a 
      * modicum of mutual authentication by verifying that the server knows
