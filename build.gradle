@@ -5,7 +5,7 @@ configurations {
 }
 
 group = 'com.magnet.mmx.ext'
-version = '4.0.7'
+version = '4.0.7p1'
 description = 'MMX asmack'
 
 uploadArchives {
