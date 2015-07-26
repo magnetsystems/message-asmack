@@ -33,5 +33,5 @@ uploadArchives {
 }
 
 artifacts {
-   resultArchives file: file("releases/4.0.7/mmx-asmack-android-8-4.0.7p2.jar")
+   resultArchives file: file("releases/${version}/mmx-asmack-android-8-${version}.jar")
 }
