@@ -72,6 +72,20 @@ public class SmackAndroid {
 		return sSmackAndroid;
 	}
 
+  /**
+   * Get the instance of the Android Smack.
+   */
+  public static SmackAndroid getInstance() {
+    return sSmackAndroid;
+  }
+
+  /**
+   * Get the application context.
+   */
+  public Context getContext() {
+    return mCtx;
+  }
+
 	/**
 	 * Cleanup all components initialized by init(). Make sure to call
 	 * this method in all the exit code paths of your application.
