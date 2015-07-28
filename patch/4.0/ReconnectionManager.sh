@@ -45,13 +45,6 @@ import android.util.Log;
  */
 public class ReconnectionManager extends AbstractConnectionListener {
   
-//  private static void dumpBundle(Bundle bundle) {
-//    for (String key : bundle.keySet()) {
-//      Object obj = bundle.get(key);
-//      Log.d(TAG, "Bundle: "+key+"="+obj);
-//    }
-//  }
-  
   public class NetworkReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -203,30 +196,30 @@ public class ReconnectionManager extends AbstractConnectionListener {
         // The process will try to reconnect until the connection is established
         // or the user cancel the reconnection process {@link XMPPConnection#disconnect()}
         while (ReconnectionManager.this.isReconnectionAllowed()) {
+          // Makes a reconnection attempt.  If it failed because of no
+          // connectivity, start the connectivity monitor again. 
+          try {
+            mConnection.connect();
+          } catch (Exception e) {
+            if (!mDataMonitor.hasConnectivity()) {
+              // Reconnection failed because of no connectivity, start
+              // monitoring the connectivity using Connectivity Service.
+              if (mDataMonitor.start()) {
+                ReconnectionManager.this.notifyAttemptToReconnectIn(-1);
+              }
+              return;
+            }
+            // Fires the failed reconnection notification
+            ReconnectionManager.this.notifyReconnectionFailed(e);
+          }
+          
           // Find how much time we should wait until the next reconnection
           int remainingSeconds = timeDelay();
-          // Connect first.  If it failed because of no connectivity, start the
-          // connectivity monitor again.  Otherwise, sleep until we're ready for
-          // the next reconnection attempt. Notify listeners once per second
-          // about how much time remains before the next reconnection attempt.
+          // Sleep until we're ready for the next reconnection attempt. Notify
+          // listeners once per second about how much time remains before the
+          // next reconnection attempt.
           while (ReconnectionManager.this.isReconnectionAllowed() &&
-                 remainingSeconds > 0) {
-            // Makes a reconnection attempt
-            try {
-              mConnection.connect();
-            } catch (Exception e) {
-              if (!mDataMonitor.hasConnectivity()) {
-                // Reconnection failed because of no connectivity, start
-                // monitoring the connectivity using Connectivity Service.
-                if (mDataMonitor.start()) {
-                  ReconnectionManager.this.notifyAttemptToReconnectIn(-1);
-                }
-                return;
-              }
-              // Fires the failed reconnection notification
-              ReconnectionManager.this.notifyReconnectionFailed(e);
-            }
-            
+                remainingSeconds > 0) {
             try {
               Thread.sleep(1000);
               --remainingSeconds;
