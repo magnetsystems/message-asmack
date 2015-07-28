@@ -86,21 +86,23 @@ public class ReconnectionManager extends AbstractConnectionListener {
           Context.CONNECTIVITY_SERVICE);
     }
     
-    public void start() {
+    public boolean start() {
       if (mStarted) {
-        return;
+        return false;
       }
       mContext.registerReceiver(mNetworkReceiver, 
           new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
       mStarted = true;
+      return true;
     }
     
-    public void stop() {
+    public boolean stop() {
       if (!mStarted) {
-        return;
+        return false;
       }
       mContext.unregisterReceiver(mNetworkReceiver);
       mStarted = false;
+      return true;
     }
 
     public boolean hasConnectivity() {
@@ -158,7 +160,9 @@ public class ReconnectionManager extends AbstractConnectionListener {
       if (mDataMonitor.hasConnectivity()) {
         this.reconnect();
       } else {
-        mDataMonitor.start();
+        if (mDataMonitor.start()) {
+          ReconnectionManager.this.notifyAttemptToReconnectIn(-1);
+        }
       }
     }
   }
@@ -209,15 +213,15 @@ public class ReconnectionManager extends AbstractConnectionListener {
                  remainingSeconds > 0) {
             // Makes a reconnection attempt
             try {
-              if (ReconnectionManager.this.isReconnectionAllowed()) {
-                mConnection.connect();
-              }
+              mConnection.connect();
             } catch (Exception e) {
               if (!mDataMonitor.hasConnectivity()) {
                 // Reconnection failed because of no connectivity, start
                 // monitoring the connectivity using Connectivity Service.
-                mDataMonitor.start();
-                break;
+                if (mDataMonitor.start()) {
+                  ReconnectionManager.this.notifyAttemptToReconnectIn(-1);
+                }
+                return;
               }
               // Fires the failed reconnection notification
               ReconnectionManager.this.notifyReconnectionFailed(e);
@@ -225,7 +229,7 @@ public class ReconnectionManager extends AbstractConnectionListener {
             
             try {
               Thread.sleep(1000);
-              remainingSeconds--;
+              --remainingSeconds;
               ReconnectionManager.this
                   .notifyAttemptToReconnectIn(remainingSeconds);
             } catch (InterruptedException e1) {
@@ -261,7 +265,7 @@ public class ReconnectionManager extends AbstractConnectionListener {
    * Expressed in seconds.
    *
    * @param seconds the number of seconds that a reconnection will be
-   *         attempted in.
+   *         attempted in; -1 means indefinitely until connectivity is available.
    */
   protected void notifyAttemptToReconnectIn(int seconds) {
     if (isReconnectionAllowed()) {
