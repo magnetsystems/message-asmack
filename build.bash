@@ -512,7 +512,7 @@ setdefaults() {
 	# Default configuration, can be changed with script arguments
 #	SMACK_REPO=git://github.com/Flowdalic/smack.git
 	SMACK_REPO=ssh://git@github.com/magnetsystems/message-smack.git
-	SMACK_BRANCH=4.0.7-magnet
+	SMACK_BRANCH=mmx-blowfish-develop
 	SMACK_LOCAL=false
 	UPDATE_REMOTE=true
 	BUILD_CUSTOM=4.0
