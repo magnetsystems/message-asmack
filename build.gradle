@@ -5,8 +5,7 @@ configurations {
 }
 
 group = 'com.magnet.mmx.ext'
-def localversion = "4.0.7"
-version = "${localversion}p2"
+version = "4.0.7p3"
 description = 'MMX asmack'
 
 uploadArchives {
@@ -34,5 +33,5 @@ uploadArchives {
 }
 
 artifacts {
-   resultArchives file: file("releases/${localversion}/mmx-asmack-android-8-${localversion}.jar")
+   resultArchives file: file("releases/${version}/mmx-asmack-android-8-${version}.jar")
 }
