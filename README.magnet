@@ -1,6 +1,6 @@
 #
-# Copyright (C) 2015 Magnet Systems Inc.  All Rights Reserved.
-# 2015/01/09
+# Copyright (C) 2015-2017 Magnet Systems Inc.  All Rights Reserved.
+# 2017/04/27
 #
 # The original asmack build environemnt is clone from:
 # git clone https://github.com/Flowdalic/asmack.git
@@ -16,10 +16,18 @@
 # 
 git clone https://github.com/magnetsystems/magnet-asmack
 
-# To build asmack 4.0.7 with Magnet enhancements,
+# Update the svn
+(cd src/harmony; svn upgrade )
+(cd src/qpid; svn upgrade )
+
+# You may need to comment out the svnfetch for qpid because the qpid URL does
+# not exist anymore.
+
+# To build asmack 4.0.7 with Magnet enhancements and MAX integration,
 # make sure that ANDROID_HOME environment variable is set
 # build asmack for Android 8 (default in build-ext.bash) using tag "master"
-# the jar is in releases/4.0.7/mmx-asmack-${android-version}-{smack-version}.jar
+# use the branch 4.0.7-max from message-smack.git repo
+# the jar is in releases/4.0.7p4/mmx-asmack-${android-version}-{smack-version}.jar
 # and application needs to link with lib/org.xbill.dns_2.1.6.jar
 ant clean
-build.bash -r git://github.com/magnetsystems/magnet-smack.git -b master
+build.bash -r git://github.com/magnetsystems/message-smack.git -b 4.0.7-max
