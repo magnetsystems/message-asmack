@@ -1,3 +1,6 @@
+Release 4.0.7p4
+  Throw IOException if connection is lost and input stream returns -1 (EOF.)
+
 Release 4.0.7p3
   Integrate with Magnet Blowfish application server
 
