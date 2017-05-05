@@ -31,3 +31,6 @@ git clone https://github.com/magnetsystems/magnet-asmack
 # and application needs to link with lib/org.xbill.dns_2.1.6.jar
 ant clean
 build.bash -r git://github.com/magnetsystems/message-smack.git -b 4.0.7-max
+
+# Deploy the archives to artifactory
+gradle uploadArchives
