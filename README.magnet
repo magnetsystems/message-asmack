@@ -32,5 +32,5 @@ git clone https://github.com/magnetsystems/magnet-asmack
 ant clean
 build.bash -r git://github.com/magnetsystems/message-smack.git -b 4.0.7-max
 
-# Deploy the archives to artifactory
+# Use Gradle 2.3 to deploy the archives to artifactory
 gradle uploadArchives
