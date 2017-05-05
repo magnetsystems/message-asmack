@@ -18,10 +18,8 @@ git clone https://github.com/magnetsystems/magnet-asmack
 
 # Update the svn
 (cd src/harmony; svn upgrade )
-(cd src/qpid; svn upgrade )
 
-# You may need to comment out the svnfetch for qpid because the qpid URL does
-# not exist anymore.
+# The qpid svn does not exist anymore, use the static-src/qpid instead.
 
 # To build asmack 4.0.7 with Magnet enhancements and MAX integration,
 # make sure that ANDROID_HOME environment variable is set
