@@ -27,8 +27,14 @@ git clone https://github.com/magnetsystems/magnet-asmack
 # use the branch 4.0.7-max from message-smack.git repo
 # the jar is in releases/4.0.7p4/mmx-asmack-${android-version}-{smack-version}.jar
 # and application needs to link with lib/org.xbill.dns_2.1.6.jar
+# Use "-a android-version" in build.bash (Linux only) to specify an android version.
+# Note, when android version is changed, the artifact ID is also changed.
 ant clean
-build.bash -r git://github.com/magnetsystems/message-smack.git -b 4.0.7-max
+build.bash -r git://github.com/magnetsystems/message-smack.git -b 4.0.7-max -a 8
 
-# Use Gradle 2.3 to deploy the archives to artifactory
+# Use Gradle 2.13 to deploy the archives to artifactory (2.10 has a cycle graph error)
+# The Dev Artifactory (dev-repo.magnet.com:8081) has been shutdown since 10/2017, you
+# have to upload the achives to Public Artifactory (repo.magnet.com) with the real
+# ${releaseUser} (e.g. yuan.zhi@magnet.com) and ${releasePassword} in
+# ~/.gradle/gradle.properties
 gradle uploadArchives

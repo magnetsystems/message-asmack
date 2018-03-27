@@ -11,7 +11,12 @@ description = 'MMX asmack'
 uploadArchives {
   repositories {
     mavenDeployer {
+/*
        repository(url: "http://dev-repo.magnet.com:8081/artifactory/libs-release-local") {
+                  authentication(userName: "${releaseUser}", password: "${releasePassword}")
+        }
+*/
+       repository(url: "http://repo.magnet.com/artifactory/libs-release-local") {
                   authentication(userName: "${releaseUser}", password: "${releasePassword}")
         }
        pom.project {
